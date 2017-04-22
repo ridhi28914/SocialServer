@@ -8,27 +8,36 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-//@Entity 
-//@Table (name="USER")
 public class User implements Serializable{
-
-//	@Column (name="USER_ID")
 	private int userId;
-//	@Column (name="USER_NAME")
 	private String userName;
-//	@Column (name="EMAIL")
-	private String email;
-//	@Column (name="TOKEN")
+	private String email;	
 	private String token;
-//	@Column (name="SOURCE")
-	private int source; // fb(0),google(1)?
-//	@Column (name="PROFILE_PIC")
+	private int source;
 	private String profilePic;
 	private String fbGoId;
 	private long created;
 	private long modified;
 	private int isVerified;
+	private String facebookData;
+	private String fbPermission;
 	
+	
+	public String getFacebookData() {
+		return facebookData;
+	}
+
+	public void setFacebookData(String facebookData) {
+		this.facebookData = facebookData;
+	}
+	public String getFbPermission() {
+		return fbPermission;
+	}
+
+	public void setFbPermission(String fbPermission) {
+		this.fbPermission = fbPermission;
+	}
+
 	public long getCreated() {
 		return created;
 	}

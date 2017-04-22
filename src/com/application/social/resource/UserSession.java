@@ -42,6 +42,7 @@ public class UserSession extends BaseResource{
 	 * an email to the new user Generates a session for the user
 	 * 
 	 * @author ridhi
+	 * @throws JSONException 
 	 */
 
 	@Path("/login")
@@ -49,9 +50,10 @@ public class UserSession extends BaseResource{
 	@Produces("application/json")
 	@Consumes("application/x-www-form-urlencoded")
 	public JSONObject authorization(@FormParam("name")String userName,@FormParam("email")String email
-			,@FormParam("source")int source,@FormParam("fbGoID")String fbGoId
+			,@FormParam("source")int source,@FormParam("fbGoId")String fbGoId
 			,@FormParam("profile_pic")String profilePic,@FormParam("client_id")String clientId
-			,@FormParam("app_type")String appType,@FormParam("token")String token) {
+			,@FormParam("app_type")String appType,@FormParam("token")String token,@FormParam("fbdata") String fbData
+			,@FormParam("fb_permission") String fb_permissions) throws JSONException {
 			
 			//		
 		
@@ -98,15 +100,56 @@ public class UserSession extends BaseResource{
 					userToAdd.setSource(source);
 					userToAdd.setToken(token);
 					userToAdd.setProfilePic(profilePic);
-//					userToAdd.setFacebookId(fbGoId);
-//					userToAdd.setFacebookData(fbData);
-//					userToAdd.setFbPermission(fb_permissions);
+					userToAdd.setFbGoId(fbGoId);
+					userToAdd.setFacebookData(fbData);
+					userToAdd.setFbPermission(fb_permissions);
 					userToAdd.setCreated(System.currentTimeMillis());
 					userToAdd.setModified(0);
 					
 					user = userDao.addUserDetails(userToAdd);
 					
 			}
+				else{
+					if (user != null && source == 0) {
+
+						boolean isValueChanged = false;
+						if (user.getFacebookData() != null && fbData != null && !user.getFacebookData().equals(fbData)) {
+							user.setFacebookData(fbData);
+							isValueChanged = true;
+						}
+						if (user.getToken() != null && token != null
+								&& !user.getToken().equals(token)) {
+							user.setToken(token);
+							isValueChanged = true;
+						}
+						if (user.getFbPermission() != null && fb_permissions != null
+								&& !user.getFbPermission().equals(fb_permissions)) {
+							user.setFbPermission(fb_permissions);
+							isValueChanged = true;
+						}
+						if (user.getFbGoId() != null && fbGoId != null && !user.getFbGoId().equals(fbGoId)) {
+							user.setFbGoId(fbGoId);
+							isValueChanged = true;
+						}
+						if (user.getProfilePic() != null && profilePic != null
+								&& !user.getProfilePic().equals(profilePic)) {
+							user.setProfilePic(profilePic);
+							isValueChanged = true;
+						}
+						if (isValueChanged) {
+							final User newUser = user;
+							Runnable runnable = new Runnable() {
+								public void run() {
+									UserDao newDao = new UserDao();
+									newDao.updateUserDetails(newUser);
+								}
+							};
+							Thread newThread = new Thread(runnable);
+							newThread.start();
+						}
+
+					}
+				}
 				if (user == null || user.getUserId() <= 0)
 					return CommonLib.getResponseString("Error", "Some error occured", CommonLib.RESPONSE_INVALID_PARAMS);
 
@@ -138,7 +181,6 @@ public class UserSession extends BaseResource{
 					responseObject.put("email", user.getEmail());
 					responseObject.put("profile_pic", user.getProfilePic());
 					responseObject.put("username", user.getUserName());
-//					responseObject.put("points", user.getPoints());
 					responseObject.put("user", JsonUtil.getUserJson(user));
 
 				} catch (JSONException e) {
@@ -191,57 +233,5 @@ public class UserSession extends BaseResource{
 
 }			
 			
-//		 	String enc= userName+email+userId;
-//			String access_token=null;
-//			try {
-//				access_token = Base64.getEncoder().encodeToString(enc.getBytes("utf-8"));
-//			} catch (UnsupportedEncodingException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//			JSONObject response = new JSONObject();
-//			try {
-//				response.put("response","success");
-//				response.put("access_token",access_token);
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
-//			System.out.print(response);
-//			return response.toString();
-//			return response;
-			
-			
-	
-//			
-//			DbUtil dbu= new DbUtil();
-//			Session session = dbu.getSessionFactory().openSession();
-//			session.beginTransaction();
-//			Query query = session.createQuery("from UserDetails where userId= :userid");
-//			query.setParameter("userid", user_id);
-//			
-//			UserSession sess= new UserSession();
-//			sess.setUserId(user_id);
-//			sess.setIsValid(true);
-//			sess.setAccessToken(access_token);
-//			session.save(sess);
-//			
-//			if(query.getResultList()!=null){
-//			//code of shred preferences	
-//			}
-//			else{
-//				UserDetails user = new UserDetails();
-//				user.setUserId(user_id);
-//				user.setEmail(email);
-//				user.setUserName(name);
-////				user.setToken(token);x
-//				user.setSource(source);
-//				user.setProfilePic(profile_pic);
-//				session.save(user);
-//				
-//			}
-//			
-			 
-		 
-		 
 			
 

@@ -165,4 +165,30 @@ public class UserDao extends BaseDao {
 		info("userActive exit");
 		return user;
 	}
+	public User updateUserDetails(User user) {
+
+		Session session = null;
+		info("updateUserDetails enter");
+		try {
+			session = DbUtil.getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+			session.update(user);
+			transaction.commit();
+			session.close();
+		} catch (HibernateException e) {
+			user = null;
+			try {
+				throw new ZException("Error", e);
+			} catch (ZException e1) {
+				e1.printStackTrace();
+			}
+			error("Hibernate exception: " + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		info("userActive exit");
+		return user;
+	}
+
 }
