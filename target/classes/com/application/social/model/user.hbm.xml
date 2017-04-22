@@ -17,7 +17,9 @@
 		<property column="FbGoId" name="fbGoId" type="java.lang.String" />
 		<property column="Created" name="created" type="java.lang.Long" />
 		<property column="Modified" name="modified" type="java.lang.Long" />
-
+		<property column="FacebookData" type="text" name="facebookData" length="10000"/>
+		<property column="FacebookPermission" name="fbPermission"
+			type="java.lang.String" />
 		
 	</class>
 </hibernate-mapping>

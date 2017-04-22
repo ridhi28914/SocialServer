@@ -2,9 +2,9 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="com.application.social.model.User" table="User">
+	<class name="com.application.social.model.Twitter" table="Twitter">
 
-		<id column="UserId" name="userId" type="java.lang.Integer">
+		<id column="TwitterId" name="twitterId" type="java.lang.Integer">
 			<generator class="native" />
 		</id>
 		<property column="Email" name="email" type="java.lang.String" />
@@ -12,14 +12,10 @@
 		<property column="Profile_Pic" name="profilePic" type="java.lang.String" />
 		<property column="Username" name="userName" type="java.lang.String" />
 		<property column="Token" name="token" type="java.lang.String" />
-		<property column="Source" name="source" type="java.lang.Integer" />
 		<property column="Verified" name="isVerified" type="java.lang.Integer" />
-		<property column="FbGoId" name="fbGoId" type="java.lang.String" />
+		<property column="PlatformId" name="platformId" type="java.lang.String" />
 		<property column="Created" name="created" type="java.lang.Long" />
 		<property column="Modified" name="modified" type="java.lang.Long" />
-		<property column="FacebookData" type="text" name="facebookData" length="10000"/>
-		<property column="FacebookPermission" name="fbPermission"
-			type="java.lang.String" />
 		
 	</class>
 </hibernate-mapping>

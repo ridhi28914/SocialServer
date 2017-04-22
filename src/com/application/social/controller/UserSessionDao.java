@@ -254,45 +254,6 @@ public class UserSessionDao extends BaseDao {
 //
 //	}
 //
-//	/**
-//	 * Delete an accessToken for a particular user
-//	 */
-//	public boolean nullifyAccessToken(int userId, String accessToken) {
-//
-//		Session session = null;
-//		info("nullifyAccessToken enter");
-//
-//		try {
-//
-//			session = DBUtil.getSessionFactory().openSession();
-//
-//			Transaction transaction = session.beginTransaction();
-//
-//			String sql = "DELETE FROM Session WHERE AccessToken = :access_token && UserId = :user_id";
-//			SQLQuery query = session.createSQLQuery(sql);
-//			query.addEntity(com.application.zapplon.model.Session.class);
-//			query.setParameter("access_token", accessToken);
-//			query.setParameter("user_id", userId);
-//			int result = query.executeUpdate();
-//			transaction.commit();
-//			session.close();
-//			return true;
-//
-//		} catch (HibernateException e) {
-//			try{
-//				throw new ZException("Error",e);
-//			}
-//			catch(ZException e1){
-//				e1.printStackTrace();
-//			}
-//			error("Hibernate exception: " + e.getMessage());
-//		} finally {
-//			if (session != null && session.isOpen())
-//				session.close();
-//		}
-//		info("nullifyAccessToken exit");
-//		return false;
-//	}
 //
 //	public ArrayList<String> getUserPushIds(int userId) {
 //		ArrayList<String> pushIds = new ArrayList<String>();

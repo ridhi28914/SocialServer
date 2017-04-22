@@ -26,7 +26,7 @@ public class CommonLib {
 	public static final int RESPONSE_INVALID_MERCHANT = 206;
 
 	
-	public static JSONObject getResponseString(Object responseJson, String errorMessage, int status) {
+	public static JSONObject getResponseString(Object responseJson, String errorMessage, int status) throws JSONException {
 		JSONObject responseObject = new JSONObject();
 		switch (status) {
 		case RESPONSE_SUCCESS:
@@ -119,6 +119,8 @@ public class CommonLib {
 		}
 
 		return responseObject;
+//			return new JSONObject(responseObject.toString());
+		
 	}
 	
 	public static String getUserName(User user) {
@@ -126,27 +128,27 @@ public class CommonLib {
 			return "";
 		String userName = "";
 		if (user.getUserName() == null || user.getUserName().equals("") || user.getUserName().equals("null")) {
-//			try {
-//				JSONObject data = new JSONObject(user.getFacebookData());
-//				if (data.has("name")) {
-//					String name = String.valueOf(data.get("name"));
-//					name = name.split(" ")[0];
-//					userName = name;
-//				}
-//			} catch (JSONException e) {
-//				try {
-//					throw new ZException("Error", e);
-//				} catch (ZException e1) {
-//					e1.printStackTrace();
-//				}
-//			} catch (Exception e) {
-//				try {
-//					throw new ZException("Error", e);
-//				} catch (ZException e1) {
-//					e1.printStackTrace();
-//				}
-//			}
-//		} else {
+			try {
+				JSONObject data = new JSONObject(user.getFacebookData());
+				if (data.has("name")) {
+					String name = String.valueOf(data.get("name"));
+					name = name.split(" ")[0];
+					userName = name;
+				}
+			} catch (JSONException e) {
+				try {
+					throw new ZException("Error", e);
+				} catch (ZException e1) {
+					e1.printStackTrace();
+				}
+			} catch (Exception e) {
+				try {
+					throw new ZException("Error", e);
+				} catch (ZException e1) {
+					e1.printStackTrace();
+				}
+			}
+		} else {
 			String name = user.getUserName();
 			name = name.split(" ")[0];
 			userName = name;
