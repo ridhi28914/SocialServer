@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.application.social.model.ConnectedAccounts" table="ConnectedAccounts">
+
+		<id column="ConectedId" name="connectedId" type="java.lang.Integer">
+			<generator class="native" />
+		</id>
+
+		<property column="PinterestId" name="pinterestId" type="java.lang.String" />
+		<property column="TwitterId" name="twitterId" type="java.lang.String" />
+		<property column="FacebookId" name="facebookId" type="java.lang.String" />
+		<property column="InstagramId" name="instagramId" type="java.lang.String" />
+		<property column="UserId" name="userId" type="java.lang.Integer" />
+		
+	</class>
+</hibernate-mapping>

@@ -10,7 +10,9 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import com.application.social.controller.ConnectedAccountsDao;
 import com.application.social.controller.TwitterDao;
+import com.application.social.model.ConnectedAccounts;
 import com.application.social.model.Twitter;
 import com.application.social.model.User;
 import com.application.social.util.CommonLib;
@@ -30,7 +32,8 @@ public class TwitterUser extends BaseResource {
 	public String twitterauth(@FormParam("name")String userName,@FormParam("email")String email
 			,@FormParam("fbGoId")String platformId
 			,@FormParam("profile_pic")String profilePic,@FormParam("client_id")String clientId
-			,@FormParam("app_type")String appType,@FormParam("token")String token) throws JSONException {
+			,@FormParam("app_type")String appType,@FormParam("token")String token,
+			@FormParam("user_id")int userId) throws JSONException {
 			
 			//		
 			if (clientId == null || appType == null)
@@ -48,10 +51,26 @@ public class TwitterUser extends BaseResource {
 			TwitterDao twitterDao= new TwitterDao();
 			Twitter twitter=null;
 			
+			ConnectedAccountsDao connectedAccountsDao= new ConnectedAccountsDao();
+			
 			if (twitter == null || twitter.getTwitterId() <= 0){
 				twitter = twitterDao.getTwitterDetails(platformId);
 				
+				ConnectedAccounts connectedAccounts = null; 
+				connectedAccounts = connectedAccountsDao.getConnectedAccountsDetails(userId);
+				if(connectedAccounts==null || connectedAccounts.getUserId()<=0) {
+						ConnectedAccounts userToAdd = new ConnectedAccounts(); 
+						userToAdd.setUserId(userId);
+						userToAdd.setTwitterId(platformId);
+						connectedAccounts = connectedAccountsDao.addConnectedAccountsDetails(userToAdd);
+				}
+				else{	
+					connectedAccounts.setTwitterId(platformId);
+					connectedAccounts=connectedAccountsDao.updateConnectedAccountsDetails(connectedAccounts,0);
+				}
+				
 				if (twitter == null || twitter.getTwitterId() <= 0) {
+					
 					Twitter userToAdd = new Twitter();
 //					userToAdd.setProfilePic(profilePic);
 					userToAdd.setUserName(userName);

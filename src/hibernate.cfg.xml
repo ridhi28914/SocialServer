@@ -50,13 +50,14 @@
 
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
-<!-- 
-        <mapping class="com.application.social.model.User"/>
-        <mapping class="com.application.social.model.Session"/>
-	 -->
+
 	 	<mapping resource="com/application/social/model/session.hbm.xml" />
 		<mapping resource="com/application/social/model/user.hbm.xml" />
 		<mapping resource="com/application/social/model/twitter.hbm.xml" />
+		<mapping resource="com/application/social/model/pinterest.hbm.xml" />
+		<mapping resource="com/application/social/model/facebook.hbm.xml" />
+	<!-- 	<mapping resource="com/application/social/model/facebookus.hbm.xml" /> -->
+		<mapping resource="com/application/social/model/connectedaccounts.hbm.xml" />
     </session-factory>
 
 </hibernate-configuration>

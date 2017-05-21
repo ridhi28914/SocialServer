@@ -49,7 +49,7 @@ public class UserSession extends BaseResource{
 	@POST
 	@Produces("application/json")
 	@Consumes("application/x-www-form-urlencoded")
-	public JSONObject authorization(@FormParam("name")String userName,@FormParam("email")String email
+	public String authorization(@FormParam("name")String userName,@FormParam("email")String email
 			,@FormParam("source")int source,@FormParam("fbGoId")String fbGoId
 			,@FormParam("profile_pic")String profilePic,@FormParam("client_id")String clientId
 			,@FormParam("app_type")String appType,@FormParam("token")String token,@FormParam("fbdata") String fbData
@@ -60,10 +60,10 @@ public class UserSession extends BaseResource{
 		
 			String clientCheck = super.clientCheck(clientId, appType);
 			if (clientCheck != null && !clientCheck.equals("success"))
-				return CommonLib.getResponseString("Invalid params", "", CommonLib.RESPONSE_INVALID_PARAMS);
+				return CommonLib.getResponseString("Invalid params", "", CommonLib.RESPONSE_INVALID_PARAMS).toString();
 			
 			if (email == null || email.isEmpty())
-				return CommonLib.getResponseString("Invalid email", "", CommonLib.RESPONSE_INVALID_PARAMS);
+				return CommonLib.getResponseString("Invalid email", "", CommonLib.RESPONSE_INVALID_PARAMS).toString();
 
 
 			UserDao userDao = new UserDao();
@@ -83,7 +83,7 @@ public class UserSession extends BaseResource{
 			if ((user == null || user.getUserId() <= 0) && !((token != null && !token.isEmpty())
 					|| (userName != null && !userName.isEmpty())))
 				return CommonLib.getResponseString("Invalid user", "Invalid login credentials",
-						CommonLib.RESPONSE_INVALID_PARAMS);
+						CommonLib.RESPONSE_INVALID_PARAMS).toString();
 			
 			
 			if (user == null || user.getUserId() <= 0){
@@ -151,7 +151,7 @@ public class UserSession extends BaseResource{
 					}
 				}
 				if (user == null || user.getUserId() <= 0)
-					return CommonLib.getResponseString("Error", "Some error occured", CommonLib.RESPONSE_INVALID_PARAMS);
+					return CommonLib.getResponseString("Error", "Some error occured", CommonLib.RESPONSE_INVALID_PARAMS).toString();
 
 			}
 			
@@ -191,9 +191,9 @@ public class UserSession extends BaseResource{
 					}
 					error("Jersey exception: " + e.getMessage());
 				}
-				return CommonLib.getResponseString(responseObject.toString(), "", status);
+				return CommonLib.getResponseString(responseObject.toString(), "", status).toString();
 			} else
-				return CommonLib.getResponseString("failed", "", status);
+				return CommonLib.getResponseString("failed", "", status).toString();
 			
 	}
 	/**
